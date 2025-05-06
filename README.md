@@ -100,17 +100,16 @@ Saída (Exemplo):
 
 **Comparação de Desempenho**
 
-- Teste 1: Solução eficiente, aproveitando itens de alto valor dentro da capacidade.
-- Teste 2: Boa seleção de itens, com valor próximo ao ótimo.
-- Teste 3: Após correção, respeita a capacidade (≤20), com valor próximo ao ótimo (solução ótima conhecida: 230, com itens [4, 5, 6, 7]).
+- Teste 1: Solução amena, poderia explorar mais a capacidade.
+- Teste 2: Solução amena, com valores bem a baixo da capacidade.
+- Teste 3: Boa seleção de itens, com valor próximo ao ótimo.
 - Tempos de Execução: Consistentes (~0.11–0.13 segundos), indicando boa escalabilidade para instâncias pequenas.
 
 **Resultados e Discussão**
 
 **Desempenho:**
-- O ACO encontrou soluções válidas em todos os testes, com valores próximos aos ótimos. A restrição de capacidade na construção de soluções resolveu problemas anteriores de excesso de peso.
+- O ACO encontrou soluções válidas em todos os testes.
 - Dificuldades:
-  - Ajuste de parâmetros (( \alpha ), ( \beta ), ( \rho )) foi desafiador para balancear exploração e exploração.
   - Soluções iniciais frequentemente violavam a capacidade, exigindo a modificação no construct_solution.
   - A natureza estocástica pode levar a variações nos resultados.
 
