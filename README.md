@@ -1,20 +1,20 @@
-##Relatório: Problema da Mochila 0/1 com Algoritmo de Colônia de Formigas
+## Relatório: Problema da Mochila 0/1 com Algoritmo de Colônia de Formigas
 
 Equipe
 
 [Michael Varaldo / Gustavo Chaves / Cristian Domingues]
 
-###Modelagem do Problema
+### Modelagem do Problema
 O Problema da Mochila 0/1 consiste em selecionar um subconjunto de itens, cada um com peso e valor, para maximizar o valor total sem exceder a capacidade da mochila. A modelagem é definida como:
 
 - Lista de Pesos e Valores: Cada item ( i ) tem um peso ( w_i ) (em weights) e um valor ( v_i ) (em values). Por exemplo, no Teste 1: pesos = [10, 20, 30, 40, 50], valores = [60, 100, 120, 160, 200].
 - Capacidade da Mochila: Limite máximo de peso que a mochila suporta (em capacity). Exemplo: 100 para o Teste 1.
 - Representação das Soluções: Vetor binário ( s ) de tamanho ( n ) (número de itens), onde ( s[i] = 1 ) indica que o item ( i ) está incluído, e ( s[i] = 0 ) indica que não está. Exemplo: [1, 1, 0, 1, 0] significa incluir os itens 0, 1 e 3.
 
-###Implementação do Algoritmo
+### Implementação do Algoritmo
 O Algoritmo de Colônia de Formigas (ACO) foi implementado em Python (knapsack_aco.py) com as seguintes funções e operadores:
 
-###Funções Principais
+### Funções Principais
 
 - Geração de Soluções (construct_solution): Cada formiga constrói uma solução escolhendo, para cada item, se deve incluí-lo (1) ou não (0). Usa:
   - Probabilidades baseadas em feromônios (( \tau_{i,j} )) e heurística (( \eta_i = v_i/w_i )).
@@ -29,12 +29,12 @@ O Algoritmo de Colônia de Formigas (ACO) foi implementado em Python (knapsack_a
 
 
 
-###Operadores Específicos
+### Operadores Específicos
 
 - Probabilidade de Escolha: Para cada item ( i ), a probabilidade de escolher ( j \in {0, 1} ) é:[P_{i,j} = \frac{\tau_{i,j}^\alpha \cdot \eta_i^\beta}{\sum_{k \in {0,1}} \tau_{i,k}^\alpha \cdot \eta_i^\beta}]onde ( \alpha = 1 ), ( \beta = 2 ), e ( \eta_i = v_i/w_i ) para ( j = 1 ), ou 1 para ( j = 0 ).
 - Restrição de Capacidade: Garante que o peso acumulado não exceda a capacidade durante a construção.
 
-###Parâmetros
+### Parâmetros
 
 - Número de formigas: 20
 - Máximo de iterações: 100
@@ -43,7 +43,7 @@ O Algoritmo de Colônia de Formigas (ACO) foi implementado em Python (knapsack_a
 - Taxa de evaporação (( \rho )): 0.5
 - Constante ( Q ): 100
 
-Avaliação de Soluções
+**Avaliação de Soluções**
 
 - Penalização de Soluções Inválidas: Se o peso total excede a capacidade, o fitness é 0, desencorajando soluções inválidas.
 - Função de Aptidão: O fitness é a soma dos valores dos itens selecionados (( \sum s[i] \cdot v_i )) para soluções válidas.
@@ -56,7 +56,7 @@ Avaliação de Soluções
   - Espacial: ( O(m \cdot 2) ) para feromônios, mais ( O(m \cdot a) ) para soluções.
 
 
-###Execução e Testes
+### Execução e Testes
 - Três conjuntos de testes foram executados com diferentes pesos, valores e capacidades:
 
 **Teste 1**
@@ -65,7 +65,6 @@ Entrada:
 - Pesos: [10, 20, 30, 40, 50]
 - Valores: [60, 100, 120, 160, 200]
 - Capacidade: 100
-
 
 Saída (Exemplo):
 - Solução: [1, 1, 0, 1, 0]
@@ -79,7 +78,6 @@ Entrada:
 - Pesos: [5, 10, 15, 22, 25]
 - Valores: [30, 40, 45, 77, 90]
 - Capacidade: 60
-
 
 Saída (Exemplo):
 - Solução: [1, 1, 0, 1, 0]
@@ -109,29 +107,22 @@ Saída (Exemplo):
 
 **Resultados e Discussão**
 
-Desempenho: O ACO encontrou soluções válidas em todos os testes, com valores próximos aos ótimos. A restrição de capacidade na construção de soluções resolveu problemas anteriores de excesso de peso.
-Dificuldades:
-Ajuste de parâmetros (( \alpha ), ( \beta ), ( \rho )) foi desafiador para balancear exploração e exploração.
-Soluções iniciais frequentemente violavam a capacidade, exigindo a modificação no construct_solution.
-A natureza estocástica pode levar a variações nos resultados.
+**Desempenho:**
+- O ACO encontrou soluções válidas em todos os testes, com valores próximos aos ótimos. A restrição de capacidade na construção de soluções resolveu problemas anteriores de excesso de peso.
+- Dificuldades:
+  - Ajuste de parâmetros (( \alpha ), ( \beta ), ( \rho )) foi desafiador para balancear exploração e exploração.
+  - Soluções iniciais frequentemente violavam a capacidade, exigindo a modificação no construct_solution.
+  - A natureza estocástica pode levar a variações nos resultados.
 
+**Aprendizados:**
+  - Restrições na construção de soluções são mais eficazes que apenas penalizações no fitness.
+  - A heurística valor/peso guia bem a busca, mas precisa de suporte de feromônios.
+  - Embaralhar índices reduz viés e melhora a diversidade das soluções.
 
-Aprendizados:
-Restrições na construção de soluções são mais eficazes que apenas penalizações no fitness.
-A heurística valor/peso guia bem a busca, mas precisa de suporte de feromônios.
-Embaralhar índices reduz viés e melhora a diversidade das soluções.
-
-
-
-Conclusão
-O ACO foi adaptado com sucesso para o Problema da Mochila 0/1, gerando soluções válidas e de alta qualidade. A implementação é robusta para instâncias pequenas, com tempos de execução baixos. Melhorias futuras podem incluir:
+**Conclusão**
+- O ACO foi adaptado com sucesso para o Problema da Mochila 0/1, gerando soluções válidas e de alta qualidade. A implementação é robusta para instâncias pequenas, com tempos de execução baixos. Melhorias futuras podem incluir:
 
 Ajuste dinâmico de parâmetros.
 Integração com busca local para refinar soluções.
 Testes com instâncias maiores para avaliar escalabilidade.
-
-Referências
-
-Dorigo, M., & Stützle, T. (2004). Ant Colony Optimization. MIT Press.
-Cormen, T. H., et al. (2009). Introduction to Algorithms. MIT Press.
 
